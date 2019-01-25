@@ -1,3 +1,7 @@
+// This program asks the user how many integers to make room for in virtual memory. 
+// It clears space for the ints, and asks the user to enter a value for each
+// one. It then prints a table with virtual memory addresses and int values. 
+
 #include <stdio.h>
 #include <stdlib.h>
 
