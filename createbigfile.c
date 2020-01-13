@@ -43,10 +43,8 @@ int main(int argc, char *argv[]) {
 
     errno = 0;
     while (total_bytes_read < FILE_SIZE) {
-        
-        printf("total_bytes_read = %lu. About to call read...\n", total_bytes_read);
         bytes_read = read(fd_rand, &randbuf[total_bytes_read], FILE_SIZE - total_bytes_read);
-        printf("Called read. bytes_read = %lu. total_bytes_read = %lu\n", bytes_read, total_bytes_read);
+        printf("bytes read on last read call: %lu. total bytes read = %lu\n", bytes_read, total_bytes_read);
         if (bytes_read == -1) {
             perror("read fd_rand");
             close(fd_rand);
