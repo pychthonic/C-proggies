@@ -198,10 +198,9 @@ int main(int argc, char *argv[]) {
          close(fd_input);
          exit(EXIT_FAILURE);
     }
-
+ 
     FILE *command_fptr;
-    char command[256] = "ls -la";
-    strcat(command, " "); 
+    char command[256] = "ls -la ";
     strcat(command, filename);
 
     errno = 0;
@@ -228,7 +227,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
+   errno = 0;
     if (close(newfilefd) == -1) {
         perror("close");
         close(fd_input);
