@@ -9,7 +9,7 @@
 
 #define MAX_READ_SIZE 4096
 
-/* This program uses a mix of system calls and glibc library functions to take
+/* This program uses a mix of system calls and glibc wrapper functions to take
  * multiline input from stdin (use CTRL-D to signal end of input), and asks the
  * user to provide a name for a new file.
  * 
