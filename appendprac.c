@@ -10,7 +10,7 @@
 
 /* This file first creates a file and adds some data to it.
  * It then closes it, reopens it with the O_APPEND flag,
- * seeks to the beginning of the file before writing some
+ * seeks to SEEK_SET with an offset of 0 before writing some
  * more data. Then we can check where the data ends up.
  * */
 
