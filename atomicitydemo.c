@@ -19,8 +19,9 @@
  * ./atomicitydemo newfile.txt 1000 & ./atomicitydemo newfile.txt 1000 
  * 
  * The writes will overwrite each other, and you'll end up with a file
- * that's only 1000 bytes long even though 2000 characters were
- * written.
+ * that's somewhere between 1000 and 2000 bytes long, depending on
+ * how many times the two processes switch back and forth while
+ * writing and overwriting each other.
  * 
  * If you run:
  * 
@@ -74,8 +75,15 @@ int main(int argc, char *argv[]) {
              close(fptr);
              exit(EXIT_FAILURE);
         }
-
-        if (!(flags && O_APPEND)) {
+        //printf("i = %d\n", i);  // Uncomment the printf if you want
+                                  // to watch the two processes go back
+                                  // and forth...on my machine, the first
+                                  // process got about 20 writes in
+                                  // before the other one interupted
+                                  // and then they mostly go back and
+                                  // forth for the rest of the 1000
+                                  // writes.
+        if (!(flags & O_APPEND)) {
             errno = 0; 
             if (lseek(fptr, 0, SEEK_END) == -1) {
                 perror("lseek");
