@@ -19,7 +19,8 @@
  * ./atomicitydemo newfile.txt 1000 & ./atomicitydemo newfile.txt 1000 
  * 
  * The writes will overwrite each other, and you'll end up with a file
- * that's 1000 bytes long.
+ * that's only 1000 bytes long even though 2000 characters were
+ * written.
  * 
  * If you run:
  * 
@@ -37,7 +38,7 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
     
-    if ((argc == 4) && (!(strcmp(argv[3], "--append")) && !(strcmp(argv[3], "-a")))) {
+    if ((argc == 4) && !strcmp(argv[3], "--append") && !strcmp(argv[3], "-a")) {
         printf("argv[3] is %s instead of --append or -a\n", argv[3]);
         printf("Usage: %s filename <byte_count> [--append | -a]\n", argv[0]);
         exit(EXIT_FAILURE);
@@ -50,21 +51,20 @@ int main(int argc, char *argv[]) {
         printf("Usage: %s filename <byte_count> [--append | -a]\n", argv[0]);
         exit(EXIT_FAILURE);
     } 
-
-    int append_flag = 0;
+    
     int flags = O_WRONLY | O_CREAT;
-    if ((argv[3] == "--append") || (argv[3] == "-a")) {
-        append_flag = 1; 
+    
+    if ((argc == 4) && (!strcmp(argv[3], "--append") || !strcmp(argv[3], "-a"))) {
         flags |= O_APPEND;
     }
-
+    
     errno = 0;
     int fptr = open(argv[1], flags, S_IRUSR | S_IWUSR);
     if (fptr == -1) {
         perror("open");
         exit(EXIT_FAILURE);
     }
-   
+    
     int i, byte_written;
      
     for (i=0; i<byte_count; i++) {
@@ -75,7 +75,7 @@ int main(int argc, char *argv[]) {
              exit(EXIT_FAILURE);
         }
 
-        if (!append_flag) {
+        if (!(flags && O_APPEND)) {
             errno = 0; 
             if (lseek(fptr, 0, SEEK_END) == -1) {
                 perror("lseek");
