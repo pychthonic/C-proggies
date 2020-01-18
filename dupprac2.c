@@ -16,6 +16,7 @@
  * table, as per the dup man page. It then uses various ways to look
  * at the data written to the file and shows what happens when a
  * printf function hits a file hole.
+ * This is a mix of exercise 5-4 and 5-5 in tlpi.
  * */
 
 int print_all_characters_in_file(int fd) {
@@ -62,6 +63,21 @@ int check_offsets(int fd1, int fd2) {
     } 
 }
 
+int check_flags(int fd1, int fd2) {
+    int flags1 = fcntl(fd1, F_GETFL);
+    int flags2 = fcntl(fd2, F_GETFL);
+    
+    if (flags1 != flags2) {
+        printf("\nOpen file access flags for fd1 and fd2 don't match.\n"); 
+        return -1;
+    }
+    else {
+        printf("\nOpen file access flags for fd1 and fd2 are the same.\n");
+        return 1;
+    }
+}
+
+
 int main(int argc, char *argv[]) {
 
     errno = 0;
@@ -75,6 +91,8 @@ int main(int argc, char *argv[]) {
     int newfd2 = dup(newfd1);
     printf("newfd2, which points to same open file description as newfd1: %d\n", newfd2);
 
+    check_flags(newfd1, newfd2); 
+    
     if (check_offsets(newfd1, newfd2) == -1) {
         close(newfd1);
         close(newfd2);
@@ -84,14 +102,15 @@ int main(int argc, char *argv[]) {
 
     int bytes_written = write(newfd1, "aaaaa", 5); 
     printf("\nChecking offsets after writing 5 characters to newfd1\n");
-    
+
     if (check_offsets(newfd1, newfd2) == -1) {
         close(newfd1);
         close(newfd2);
         fprintf(stderr, "File offsets don't match. Exiting.\n");
         exit(EXIT_FAILURE);
     }
-    
+    check_offsets(newfd1, newfd2); 
+     
     bytes_written = write(newfd2, "bbbbb", 7);     
     printf("\nChecking offsets after writing 7 characters to newfd2\n");
     printf("File holes shouldn't matter for the offsets.\n");
@@ -101,7 +120,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "File offsets don't match. Exiting.\n");
         exit(EXIT_FAILURE);
     }
-    
+
     bytes_written = write(newfd2, "ccc", 3);     
     printf("\nChecking offsets after writing 7 characters to newfd2\n");
     
