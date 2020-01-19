@@ -20,10 +20,8 @@ ssize_t my_writev(int fd, const struct iovec *iov, int iovcnt) {
     for (i=0; i<iovcnt; i++) {
         errno = 0; 
         bytes_written = write(fd, iov[i].iov_base, iov[i].iov_len);
-        errno = 0; 
-        if (bytes_written != iov[i].iov_len) {
-            close(fd);
-            errExit("write to fd");
+        if ((bytes_written == -1) || (bytes_written != iov[i].iov_len)) {
+            return -1;
         }
     }
 }
