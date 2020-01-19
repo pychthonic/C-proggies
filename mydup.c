@@ -27,7 +27,7 @@ struct open_fd {
         struct open_fd *next;
 };
 
-int mydup(int fd) {
+int mydup(const int fd) {
     errno = 0;
     int new_fd = fcntl(fd, F_DUPFD, 0);
     if (new_fd == -1) {
@@ -37,7 +37,7 @@ int mydup(int fd) {
     return new_fd; 
 }
 
-int mydup2(int fd1, int fd2) {
+int mydup2(const int fd1, int fd2) {
     if (fcntl(fd1, F_GETFD) == -1) {
         errno = EBADF;
         perror("fcntl(fd1, F_GETFD)");
@@ -65,7 +65,7 @@ int mydup2(int fd1, int fd2) {
 }
 
 
-struct open_fd *get_open_file_descriptors (int max_fd_count) {
+struct open_fd *get_open_file_descriptors (const int max_fd_count) {
     /* Creates a linked list of all open file descriptors and returns
      * a pointer to the first linked list struct. */
 
