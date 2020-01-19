@@ -12,9 +12,8 @@
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
 /* My implemention of readv() function. It reads in 3 lines from stdin,
- * stores them in 3 iovector structs, then uses the standard library's
- * writev() function to print them directly to stdout to prove it
- * worked.
+ * stores them in 3 iovector structs, then uses the writev() system
+ * call to print them directly to stdout to prove it worked.
  * */
 
 ssize_t my_readv(int fd, struct iovec *iov, int iovcnt) {
