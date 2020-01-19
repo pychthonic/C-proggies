@@ -19,13 +19,11 @@ int main(int argc, char *argv[]) {
     int newfd1 = dup(2);
     printf("New fd for stderr: %d\n", newfd1);
    
-    errno = 0; 
     if (close(2) == -1) {
         perror("close(2)");
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     int newfd2 = open("file.txt", O_RDWR | O_CREAT, S_IRUSR | S_IWUSR);
     if (newfd2 == -1) {
         perror("open newfd2");
@@ -35,13 +33,11 @@ int main(int argc, char *argv[]) {
 
     printf("newfd2 = %d\n", newfd2);
 
-    errno = 0;
     if (close(newfd2) == -1) {
         perror("close newfd2");
         exit(EXIT_FAILURE);
     }
 
-    errno = 0; 
     if (close(newfd1) == -1) {
         perror("close newfd1");
         exit(EXIT_FAILURE);

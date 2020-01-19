@@ -33,21 +33,18 @@
 
 
 int main(int argc, char *argv[]) {
-    errno = 0; 
     int fd1 = open("/tmp/file.txt", O_RDWR | O_CREAT | O_TRUNC,
                    S_IRUSR | S_IWUSR);
     if (fd1 == -1) {
         errExit("open /tmp/file.txt");
     }
     
-    errno = 0; 
     int fd2 = dup(fd1);
     if (fd2 == -1) {
         errExit("dup(fd1)");
         close(fd1);
     } 
      
-    errno = 0; 
     int fd3 = open("/tmp/file.txt", O_RDWR | O_CREAT | O_TRUNC,
                    S_IRUSR | S_IWUSR);
     if (fd2 == -1) {
@@ -56,7 +53,6 @@ int main(int argc, char *argv[]) {
         errExit("open /tmp/file.txt");
     }
     
-    errno = 0;
     int bytes_written = write(fd1, "Hello,", 6);
     if (bytes_written == -1) {
         close(fd1);
@@ -65,7 +61,6 @@ int main(int argc, char *argv[]) {
         errExit("write");
     }
      
-    errno = 0;
     bytes_written = write(fd2, "world", 6);
     if (bytes_written == -1) {
         close(fd1);
@@ -74,9 +69,13 @@ int main(int argc, char *argv[]) {
         errExit("write");
     }
 
-    lseek(fd2, 0, SEEK_SET);
+    if (lseek(fd2, 0, SEEK_SET) == -1) {
+        close(fd1);
+        close(fd2);
+        close(fd3);
+        errExit("lseek");
+    }
 
-    errno = 0;
     bytes_written = write(fd1, "HELLO,", 6);
     if (bytes_written == -1) {
         close(fd1);
@@ -85,7 +84,6 @@ int main(int argc, char *argv[]) {
         errExit("write");
     }
  
-    errno = 0;
     bytes_written = write(fd3, "Gidday", 6);
     if (bytes_written == -1) {
         close(fd1);

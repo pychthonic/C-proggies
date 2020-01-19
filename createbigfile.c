@@ -19,7 +19,6 @@
 
 int main(int argc, char *argv[]) {
    
-    errno = 0; 
     int fd_rand = open64("/dev/urandom", O_RDONLY);
     if (fd_rand == -1) {
         perror("open64 /dev/random");
@@ -28,7 +27,6 @@ int main(int argc, char *argv[]) {
     
     char filename[] = "bigfile.txt";
 
-    errno = 0; 
     int fd_new_file = open64(filename, O_WRONLY | O_CREAT | O_TRUNC,
                            S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
     if (fd_new_file == -1) {
@@ -43,8 +41,6 @@ int main(int argc, char *argv[]) {
     size_t total_bytes_written = 0; 
     int loop_count = 0;
 
-
-    errno = 0;
     while (total_bytes_read < FILE_SIZE) { 
         bytes_read = read(fd_rand, &randbuf[total_bytes_read], FILE_SIZE - total_bytes_read);
         if (bytes_read == -1) {
@@ -52,8 +48,7 @@ int main(int argc, char *argv[]) {
             close(fd_rand);
             exit(EXIT_FAILURE);
         }
-        
-        
+         
         bytes_written = write(fd_new_file, &randbuf[total_bytes_read], bytes_read);
         if (bytes_written != bytes_read) {
             perror("write to fd_new_file");
@@ -62,7 +57,6 @@ int main(int argc, char *argv[]) {
             exit(EXIT_FAILURE);
         }
         
-
         total_bytes_written += bytes_written; 
         total_bytes_read += bytes_read;
 
@@ -80,14 +74,14 @@ int main(int argc, char *argv[]) {
     printf("total bytes read:    %lu\n", total_bytes_read);
         
     if (total_bytes_read != FILE_SIZE) {
-        perror("read fd_rand");
+        fprintf(stderr, "read fd_rand");
         close(fd_rand);
         close(fd_new_file); 
         exit(EXIT_FAILURE);
     }
 
     if (total_bytes_written != FILE_SIZE) {
-        perror("total_bytes_written");
+        fprintf(stderr, "total_bytes_written");
         close(fd_rand);
         close(fd_new_file);
         exit(EXIT_FAILURE);
@@ -98,12 +92,10 @@ int main(int argc, char *argv[]) {
     strcat (command, filename);
     char popen_readbuf[4096];
 
-    errno = 0;
     command_fptr = popen(command, "r");
     if (command_fptr == NULL) {
         perror("popen to call ls on new file");
     } else {
-        errno = 0;
         if (fgets(popen_readbuf, 4096, command_fptr) == NULL) {
             perror("fgets");
         } else {
@@ -111,19 +103,16 @@ int main(int argc, char *argv[]) {
         }
     }
     
-    errno = 0;
     if (fclose(command_fptr) == -1) {
         perror("close command_fptr");
     }
 
-    errno = 0;
     if (close(fd_rand) == -1) {
         perror("close fd_rand");
         close(fd_new_file);
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (close(fd_new_file) == -1) {
         perror("close new file");
         exit(EXIT_FAILURE);

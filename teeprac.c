@@ -35,7 +35,6 @@ int main(int argc, char *argv[]) {
     int total_bytes_read = 0;
     char message[256];
     
-    errno = 0; 
     fd_input = open("/dev/tty", O_RDWR); 
     if (fd_input == -1) {
         perror("open");
@@ -43,7 +42,7 @@ int main(int argc, char *argv[]) {
     }
     
     strcpy(message, "Enter text to write to a file: \n"); 
-    errno = 0;
+    
     bytecount_written = write(fd_input, message, strlen(message));
     if (bytecount_written != strlen(message)) {
         perror("write");
@@ -51,7 +50,6 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     bytecount_read = read(fd_input, read_buffer, MAX_READ_SIZE);
     if (bytecount_read == -1) {
         perror("read");
@@ -61,7 +59,6 @@ int main(int argc, char *argv[]) {
 
     while (bytecount_read != 0) {
         total_bytes_read += bytecount_read; 
-        errno = 0; 
         bytecount_read = read(fd_input, &read_buffer[total_bytes_read], MAX_READ_SIZE - total_bytes_read);
         if (bytecount_read == -1) {
             perror("read");
@@ -73,7 +70,6 @@ int main(int argc, char *argv[]) {
     char filename[256];
    
     strcpy(message, "Enter new filename: "); 
-    errno = 0;
     bytecount_written = write(fd_input, message, strlen(message));
     if (bytecount_written != strlen(message)) {
          perror("write");
@@ -81,7 +77,6 @@ int main(int argc, char *argv[]) {
          exit(EXIT_FAILURE);
     }
 
-    errno= 0;
     bytecount_read = read(fd_input, filename, 256);
     if (bytecount_read == -1) {
          perror("read");
@@ -98,7 +93,6 @@ int main(int argc, char *argv[]) {
     strcat(status_path, proc_pid_str);
     strcat(status_path, "/status");
    
-    errno = 0; 
     int procfptr = open(status_path, O_RDONLY);
     if (procfptr == -1) {
          perror("open procfptr");
@@ -144,7 +138,6 @@ int main(int argc, char *argv[]) {
 
     umask(0);
   
-    errno = 0; 
     procfptr = open(status_path, O_RDONLY);
     if (procfptr == -1) {
          perror("open procfptr");
@@ -183,14 +176,12 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     newfilefd = open(filename, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP);
     if (newfilefd == -1) {
         perror("open");
         exit(EXIT_FAILURE);
     }
     
-    errno = 0;
     bytecount_written = write(newfilefd, read_buffer, total_bytes_read);
     if (bytecount_written != total_bytes_read) {
          perror("write");
@@ -203,21 +194,18 @@ int main(int argc, char *argv[]) {
     char command[256] = "ls -la ";
     strcat(command, filename);
 
-    errno = 0;
     command_fptr = popen(command, "r");
     if (command_fptr == NULL) {
         perror("popen");
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (fgets(read_buffer, 4096, command_fptr) == NULL) {
         perror("fgets");
         fclose(command_fptr);
         exit(EXIT_FAILURE);
     }
     
-    errno = 0;
     bytecount_written = write(fd_input, read_buffer, strlen(read_buffer));
     if (bytecount_written != strlen(read_buffer)) {
         perror("write");
@@ -227,7 +215,6 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-   errno = 0;
     if (close(newfilefd) == -1) {
         perror("close");
         close(fd_input);
@@ -235,14 +222,12 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (close(fd_input) == -1) {
         perror("close"); 
         fclose(command_fptr); 
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (fclose(command_fptr) == -1) {
        perror("close");
        exit(EXIT_FAILURE);

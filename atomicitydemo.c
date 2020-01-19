@@ -59,7 +59,6 @@ int main(int argc, char *argv[]) {
         flags |= O_APPEND;
     }
     
-    errno = 0;
     int fptr = open(argv[1], flags, S_IRUSR | S_IWUSR);
     if (fptr == -1) {
         perror("open");
@@ -69,7 +68,6 @@ int main(int argc, char *argv[]) {
     int i, byte_written;
      
     for (i=0; i<byte_count; i++) {
-        errno = 0; 
         if (write(fptr, "x", 1) == -1) {
              perror("write");
              close(fptr);
@@ -84,7 +82,6 @@ int main(int argc, char *argv[]) {
                                   // forth for the rest of the 1000
                                   // writes.
         if (!(flags & O_APPEND)) {
-            errno = 0; 
             if (lseek(fptr, 0, SEEK_END) == -1) {
                 perror("lseek");
                 close(fptr);
@@ -93,7 +90,6 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    errno = 0;
     if (close(fptr) == -1) {
         perror("close");
         exit(EXIT_FAILURE);

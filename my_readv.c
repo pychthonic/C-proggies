@@ -23,7 +23,6 @@ ssize_t my_readv(int fd, struct iovec *iov, int iovcnt) {
     char byte_read;
 
     for (i=0; i<iovcnt; i++) {
-        errno = 0; 
         while (j < MAXBUFFERSIZE - 1) {
             byte_read = read(fd, iov[i].iov_base + j, 1);
             if ((byte_read == -1) || (byte_read != 1)) {
@@ -58,25 +57,21 @@ int main(int argc, char *argv[]) {
     iovector[2].iov_base = str3;
     iovector[2].iov_len = strlen(str2);
 
-    errno = 0;
     int fptr = open("/dev/fd/0", O_RDONLY);
     if (fptr == -1) {
         errExit("open(stdin, O_RDONLY)");
     }
     
-    errno = 0; 
     size_t bytes_read = my_readv(fptr, &iovector[0], 3);     
     if (bytes_read == -1) {
         close(fptr);
         errExit("my_readv");
     }
     
-    errno = 0;
     if (close(fptr) == -1) {
         errExit("close(fptr)");
     } 
     
-    errno = 0;
     size_t bytes_written = writev(STDOUT_FILENO, &iovector[0], 3);
     if (bytes_written == -1) {
         errExit("writev");

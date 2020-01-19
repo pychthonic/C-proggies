@@ -21,7 +21,6 @@ int main(int argc, char *argv[]) {
     
     struct rlimit rlim;
     
-    errno = 0;
     if (getrlimit(RLIMIT_NOFILE, &rlim) == -1) {
         errExit("getrlimit");
     }

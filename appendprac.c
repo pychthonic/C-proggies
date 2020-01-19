@@ -18,7 +18,6 @@
 int main(int argc, char *argv[]) {
     char filename[] = "newfile.txt";
     
-    errno = 0;
     int fd = open(filename, O_WRONLY | O_CREAT | O_TRUNC,
                   S_IRUSR | S_IWUSR);
     if (fd == -1) {
@@ -39,27 +38,23 @@ int main(int argc, char *argv[]) {
         }
     }
 
-    errno = 0;
     if (close(fd) == -1) {
         perror("close");
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     int new_fd = open(filename, O_RDWR | O_APPEND);
     if (new_fd == -1) {
         perror("open");
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (lseek(new_fd, 0, SEEK_SET) == -1) {
         perror("lseek");
         close(new_fd);
         exit(EXIT_FAILURE);
     }
     
-    errno = 0; 
     char more_content[] = "Did this data overwrite anything?\n";
     bytes_written = write(new_fd, more_content, sizeof(more_content) - 1);
     if (bytes_written != sizeof(more_content) - 1) {
@@ -68,7 +63,6 @@ int main(int argc, char *argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    errno = 0;
     if (close(new_fd) == -1) {
         perror("close");
         exit(EXIT_FAILURE);

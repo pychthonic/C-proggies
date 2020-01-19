@@ -18,7 +18,6 @@ ssize_t my_writev(int fd, const struct iovec *iov, int iovcnt) {
     int i;
     int bytes_written;
     for (i=0; i<iovcnt; i++) {
-        errno = 0; 
         bytes_written = write(fd, iov[i].iov_base, iov[i].iov_len);
         if ((bytes_written == -1) || (bytes_written != iov[i].iov_len)) {
             return -1;
@@ -44,15 +43,17 @@ int main(int argc, char *argv[]) {
     iovector[3].iov_base = &num2;
     iovector[3].iov_len = sizeof(float);
 
-    errno = 0;
     int fptr = open("/dev/fd/1", O_WRONLY);
     if (fptr == -1) {
         errExit("open(stdout, O_WRONLY)");
     }
     
-    my_writev(fptr, &iovector[0], 4);     
+    if (my_writev(fptr, &iovector[0], 4) == -1) {
+        fprintf(stderr, "Error in my_writev()");
+        close(fptr);
+        exit(EXIT_FAILURE);
+    }
 
-    errno = 0;
     if (close(fptr) == -1) {
         errExit("close(fptr)");
     } 
