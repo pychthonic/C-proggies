@@ -11,7 +11,7 @@
 #define MAXBUFFERSIZE 4096
 
 /* This program shows a cool way to access the command line arguments
- * from functions outside of main(). It opens /proc/self/cmdline,
+ * from functions outside of main(). It opens /proc/<pid>/cmdline,
  * which holds all the command line arguments for the calling process
  * in the form of a stream of NULL-terminated strings. It counts the
  * arguments and assigned the count to my_argc. It then creates an
