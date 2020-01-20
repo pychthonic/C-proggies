@@ -15,7 +15,7 @@
  * which holds all the command line arguments for the calling process
  * in the form of a stream of NULL-terminated strings. It counts the
  * arguments and assigned the count to my_argc. It then creates an
- * array of char pointer pointers to the beginning of each argument,
+ * array of char pointers to the beginning of each argument,
  * essentially duplicating the functionality of the char *argv[]
  * array.
  * */
@@ -28,12 +28,9 @@ void function() {
     snprintf(pid_str, 10, "%d", (int)getpid());
     
     char pathname[40] = "/proc/";
-
     strcat(pathname, pid_str);
     strcat(pathname, "/cmdline");
 
-    printf("pathname = %s\n", pathname);
-    
     int fptr = open(pathname, O_RDONLY);
     if (fptr == -1) {
         errExit("open");
