@@ -11,7 +11,7 @@
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
 
-/* My implemention of writev() function.
+/* My implemention of the writev() system call.
  * */
 
 ssize_t my_writev(int fd, const struct iovec *iov, int iovcnt) {
