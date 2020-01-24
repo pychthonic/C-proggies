@@ -12,12 +12,9 @@
 
 extern char **environ;
 
-/* My implementations of unsetenv(). This was a lot less
+/* My implementation of unsetenv(). This was a lot less
  * complicated than my_setenv().
  * 
- * Return values are more specific about what happened than
- * they are for unsetenv(). 
- *
  * Return Values of my_unsetenv():
  * 
  * variable existed in environment, but no longer: 0
