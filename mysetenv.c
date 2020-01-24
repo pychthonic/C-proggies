@@ -41,6 +41,9 @@ int my_setenv(const char *name, const char *value, int overwrite) {
                 strcat(search_string, "=");
                 while (strstr(*environ, search_string) != *environ)
                     environ++;
+                printf("After while loop, environ = %p\n", *environ);
+                printf("After while loop environ points to %s\n", *environ);
+                printf("current environ - environ backup = %ld\n", environ - environ_orig_position);
                 char *new_heap_env_ptr = (char *) malloc(sizeof(new_env_ptr));
                 strncpy(new_heap_env_ptr, new_env_ptr, strlen(new_env_ptr));
                 printf("new_heap_env_ptr = %s\n", new_heap_env_ptr); 
@@ -49,7 +52,7 @@ int my_setenv(const char *name, const char *value, int overwrite) {
 
                 environ = environ_orig_position;
                 printf("After resetting, environ = %s\n", *environ);
-                return new_heap_env_ptr;
+                return 2;
             }
         }
     } else {
@@ -100,10 +103,13 @@ int main(int argc, char *argv[]) {
         puts(*ep);
   
     char *old_ep = getenv("HOME");
+    printf("old_ep = %p\n", old_ep);
+    printf("old_ep points to %s\n", old_ep); 
 
-    char *new_ep = my_setenv("HOME", "WHOOPS", 1); 
-    if (new ep !! NULL> 100) {
-        printf("returned %s\n", *new_ep);
+
+    int ret = my_setenv("HOME", "WHOOPS", 1); 
+    if (ret == 2) {
+        printf("\nChanged env variable from 'HOME' to 'NEW HOME'\n");
     }
      
     printf("\n\n\n######################\n\n\n");
