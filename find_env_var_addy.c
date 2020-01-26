@@ -30,9 +30,8 @@ extern char **environ;
  * if the space above the stack was going to be used, it
  * would have to be allocated for the largest possible
  * strings that can be held as environment variables, which
- * isn't a good use of virtual memory space. However, my 
- * next question is, how is that memory free'd at the end
- * of the program?
+ * isn't a good use of virtual memory space. My next question
+ * is, how is that memory free'd at the end of the program?
  *
  * */
 
