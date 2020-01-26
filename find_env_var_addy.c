@@ -22,7 +22,7 @@ extern char **environ;
  * this out with a gdb session.
  *
  * This program is going to mess around with setenv() and see
- * if I can find out where the char pointer poitners are
+ * if I can find out where the char pointer pointers are
  * pointing to.
  *
  * And it turns out, setenv() uses the heap for the strings
