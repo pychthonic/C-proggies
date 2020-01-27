@@ -25,12 +25,12 @@
  * Here where the unexpected thing happened, for me at least.
  *
  * I changed the dereferenced value of ipp to ip2. What I thought this
- * would do is put the address of ip2 into ipp, that is, put the
- * address of ip2 into ipp. The value of ipp didn't change though. 
- * It just changed the value of ip1 so that it pointed at the same
- * address as ip2 pointed to. ipp stayed pointing to ip1. This seems
- * counter-intuitive since the assignment "*ipp = ip2" seems like
- * it should do just that - take ip2 and assign it to ipp.
+ * would do is put the address of ip2 into ipp. The value of ipp
+ * didn't change though. It just changed the value of ip1 so that
+ * it pointed at the same address as ip2 pointed to. ipp stayed
+ * pointing to ip1. This seems counter-intuitive since the assignment
+ * "*ipp = ip2" seems like it should do just what its says - take ip2
+ * and assign it to ipp.
  *
  * The same behavior can be observed when I changed the dereferenced
  * value of ipp (*ipp) to the address of k (&k). Instead of changing
