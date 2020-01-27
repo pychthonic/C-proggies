@@ -6,6 +6,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string.h>
+#include <mcheck.h>
 
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
 #define MAXBUFFERSIZE 4096
@@ -36,8 +37,8 @@ extern char **environ;
  * */
 
 int main(int argc, char *argv[]) {
-    
-
+   
+    mtrace(); 
     printf("\nsbrk(0) = %p\n", sbrk(0));
 
     printf("Original environment variables:\n\n");
