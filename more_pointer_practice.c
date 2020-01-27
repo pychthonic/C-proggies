@@ -51,7 +51,7 @@ int main(int argc, char *argv[]) {
     int *ip1 = &i, *ip2 = &j;
     ipp = &ip1;
      
-    printf("\n  &i:  %p        &j:  %p\n", &i, &j);  
+    printf("\n   &i: %p        &j:  %p\n", &i, &j);  
     printf(" ip1:  %p       ip2:  %p\n", ip1, ip2);
     printf("&ip1:  %p      &ip2:  %p\n", &ip1, &ip2); 
     printf("*ipp:  %p       ipp:  %p\n\n", *ipp, ipp);
@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
 
     *ipp = &k;
 
-    printf("             *ipp = ip2;\n");
+    printf("             *ipp = &k;\n");
      
     printf("\n  &i:  %p        &j:  %p        &k: %p\n", &i, &j, &k);  
     printf(" ip1:  %p       ip2:  %p\n", ip1, ip2);
