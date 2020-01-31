@@ -36,13 +36,19 @@
  * the real user ID, real group ID, and effective group id the
  * same.
  *
- * If you follow these steps, I would recommend deleting the
- * binary from your system when you're done testing it out,
- * as keeping binaries owned by root with the set user ID bit
- * set is a security vulnerability - if someone manages to
- * log into your system as an unprivileged user they can
- * search for these files pretty easily and exploit them to
- * escalate their privileges on your system.
+ * If you follow these steps, I would recommend either removing
+ * the Set User ID bit and resetting the binary's ownership to
+ * your current logged-in user name by running:
+ * 
+ * sudo chmod u-s print_ids
+ * sudo chown $USERNAME print_ids
+ *
+ * or deleting the binary from your system when you're done
+ * testing it out, as keeping binaries owned by root with the
+ * set user ID bit set is a security vulnerability - if someone
+ * manages to log into your system as an unprivileged user
+ * they can search for these files pretty easily and exploit
+ * them to escalate their privileges on your system.
  * */
 
 
@@ -72,8 +78,6 @@ int main(int argc, char *argv[]) {
     printf("effective user ID: %d\n", effective_user_id);
     printf("real group ID: %d\n", real_group_id);
     printf("effective group id: %d\n\n", effective_group_id);
-
-   
 
     return EXIT_SUCCESS;
 }
