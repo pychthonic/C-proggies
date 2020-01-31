@@ -23,10 +23,27 @@ int main(int argc, char *argv[]) {
     gid_t real_group_id = getgid();
     gid_t effective_group_id = getegid();
 
-    printf("real user ID: %d\n", real_user_id);
+    printf("\nreal user ID: %d\n", real_user_id);
     printf("effective user ID: %d\n", effective_user_id);
     printf("real group ID: %d\n", real_group_id);
     printf("effective group id: %d\n", effective_group_id);
+
+    printf("\ncalling setuid(0)...\n");
+
+    int ret = setuid(0);
+    if (ret == 0) {
+        printf("\nsetuid(0) returned 0, so uid should be 0 aka root now..");
+    } else if (ret == -1) {
+        printf("\nsetuid(0) returned -1, so uid should be the same as it was before..\n");
+    }
+    
+    printf("\nLet's check.\n\n"); 
+    printf("real user ID: %d\n", real_user_id);
+    printf("effective user ID: %d\n", effective_user_id);
+    printf("real group ID: %d\n", real_group_id);
+    printf("effective group id: %d\n\n", effective_group_id);
+
+   
 
     return EXIT_SUCCESS;
 }
