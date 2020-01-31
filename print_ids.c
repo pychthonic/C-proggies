@@ -12,7 +12,37 @@
 
 /* This process prints out the real user ID, the effective user ID,
  * the real group ID, and the effective group ID of the calling
- * process.
+ * process. It then calls setuid(0), which asks the kernel to
+ * escalate its privileges by setting its user id to 0. If the
+ * binary compiled by this c code does not have its Set User ID bit
+ * set (rwSr-xr-x) and the binary is not run as sudo, then the
+ * setuid(0) call will fail and return 0. If you run the binary
+ * as sudo ("sudo ./print_ids"), it will change all 4 user IDs to
+ * 0 (on my machine it did, at least). You can change the owner of
+ * the binary to root and set the Set User ID bit with these commands:
+ *
+ * sudo chown root print_ids
+ * sudo chmod u=rws print_ids
+ *
+ * Then check that the bit was activated with:
+ *
+ * ls -lah | grep print_ids
+ *
+ * Then run the file without sudo:
+ *
+ * ./print_ids
+ *
+ * and it will change the effective user ID to 0, while keeping
+ * the real user ID, real group ID, and effective group id the
+ * same.
+ *
+ * If you follow these steps, I would recommend deleting the
+ * binary from your system when you're done testing it out,
+ * as keeping binaries owned by root with the set user ID bit
+ * set is a security vulnerability - if someone manages to
+ * log into your system as an unprivileged user they can
+ * search for these files pretty easily and exploit them to
+ * escalate their privileges on your system.
  * */
 
 
