@@ -11,7 +11,7 @@
 #define errExit(msg) do { perror(msg); exit(EXIT_FAILURE); } while (0)
 #define MAXBUFFERSIZE 4096
 
-/* This file opens /dev/urandom, which is a lot slower than
+/* This file opens /dev/urandom, which can be faster than
  * /dev/random, and prints a loop of the number it generates
  * until it hits 68.
  * */
