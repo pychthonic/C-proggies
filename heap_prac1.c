@@ -1,12 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/* This program changes values that appear in the heap. On
- * the system it was tested on, it was only able to change
- * values up to 2 ints worth of memory space above the
- * malloc'ed memory space. On the other hand, descending
- * memory addresses were able to be modified and printed
- * up to 168 ints worth of data below the malloc'ed addy.
+/* This program changes heap values. On the system it
+ * was tested on, it was only able to change values up
+ * to 2 ints worth of memory space above the malloc'ed
+ * memory space. On the other hand, descending memory
+ * addresses were able to be modified and printed up
+ * to 168 ints worth of data below the malloc'ed addy.
 */
 
 int main() {
