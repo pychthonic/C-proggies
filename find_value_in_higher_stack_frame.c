@@ -6,7 +6,7 @@
  * then calls find_y_in_main, which starts
  * searching from the address of its own local
  * variable z, incrementing the address of a
- * pointer to z until it finds 77. It varifies
+ * pointer to z until it finds 77. It verifies
  * it found the correct '77' by printing both
  * the value and the address of y in both main
  * and find_y_in_main.
